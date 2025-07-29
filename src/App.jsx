@@ -10,6 +10,7 @@ function App() {
         <span className="col-nombre">Producto</span>
         <span className="col-precio">Precio</span>
         <span className="col-stock">Stock</span>
+        <span className="col-cantidad-control">Cantidad</span>
       </div>
 
       {productos.map((producto, index) => (

@@ -7,6 +7,7 @@
   font-size: 1rem;
 }
 
+/* Columnas */
 .col-nombre {
   flex-basis: 50%;
   text-align: left;
@@ -18,16 +19,44 @@
 }
 
 .col-stock {
-  flex-basis: 25%;
+  flex-basis: 15%;
   text-align: left;
 }
 
-.disponible {
-  color: rgb(146, 219, 146);
-  font-weight: bold;
+/* Nuevo: espacio para botones de cantidad */
+.col-cantidad-control {
+  flex-basis: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.sin-stock {
-  color: rgb(233, 89, 89);
-  font-weight: bold;
+/* Botones - y + */
+.col-cantidad-control button {
+  background-color: #1a1a1a;
+  color: #fff;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0.25rem 0.7rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: border-color 0.25s;
+}
+
+.col-cantidad-control button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  border-color: transparent;
+}
+
+.col-cantidad-control button:hover:not(:disabled) {
+  border-color: #646cff;
+}
+
+/* Cantidad seleccionada */
+.cantidad {
+  min-width: 1.2rem;
+  text-align: center;
+  font-weight: 600;
 }

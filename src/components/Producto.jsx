@@ -1,8 +1,11 @@
 import './Producto.css';
 
 function Producto({ index, nombre, precio, stock, cantidad, onCantidadChange }) {
+  // Convertir stock a número y asegurar que sea al menos 0
+  const stockNum = Number(stock) || 0;
+
   const incrementar = () => {
-    if (cantidad < stock) {
+    if (cantidad < stockNum) {
       onCantidadChange(index, cantidad + 1);
     }
   };
@@ -21,8 +24,8 @@ function Producto({ index, nombre, precio, stock, cantidad, onCantidadChange }) 
       </span>
 
       <span className="columna-stock">
-        <span className={stock - cantidad > 0 ? 'disponible' : 'sin-stock'}>
-          Disponible: {stock - cantidad}
+        <span className={stockNum - cantidad > 0 ? 'disponible' : 'sin-stock'}>
+          {stockNum - cantidad > 0 ? `Disponible: ${stockNum - cantidad}` : 'Sin stock'}
         </span>
         <br />
         <span>Seleccionado: {cantidad}</span>
@@ -30,7 +33,7 @@ function Producto({ index, nombre, precio, stock, cantidad, onCantidadChange }) 
 
       <div className="columna-controles">
         <button onClick={decrementar} disabled={cantidad === 0}>-</button>
-        <button onClick={incrementar} disabled={cantidad === stock}>+</button>
+        <button onClick={incrementar} disabled={cantidad === stockNum}>+</button>
       </div>
     </div>
   );

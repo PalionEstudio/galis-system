@@ -5,6 +5,7 @@
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom:100px;
 }
 
 h1 {
@@ -53,4 +54,17 @@ h1 {
 .total-general h2 {
   font-size: 1.3rem;
   margin: 0.3rem 0;
+}
+.total-flotante {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  padding: 1rem 2rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-align: center;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
 }

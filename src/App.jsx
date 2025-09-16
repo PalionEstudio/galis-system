@@ -7,10 +7,10 @@ function App() {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filtroStock, setFiltroStock] = useState('Todos');
-  const [filtroCategoria, setFiltroCategoria] = useState('Todos');
-  const [mostrarCarrito, setMostrarCarrito] = useState(false);
-  const [productoEditar, setProductoEditar] = useState(null);
+  const [filtroStock, setFiltroStock] = useState('Todos'); 
+  const [filtroCategoria, setFiltroCategoria] = useState('Todos'); 
+  const [mostrarCarrito, setMostrarCarrito] = useState(false); 
+  const [productoEditar, setProductoEditar] = useState(null); // modal
 
   useEffect(() => {
     fetch('http://localhost:4000/productos')
@@ -36,36 +36,11 @@ function App() {
       });
   }, []);
 
+  // Manejo de cantidad
   const handleCantidadChange = (id, nuevaCantidad) => {
     setProductos(prev => prev.map(p =>
       p.id === id ? { ...p, cantidad: nuevaCantidad } : p
     ));
-  };
-
-  const handleEditar = (producto) => {
-    setProductoEditar(producto);
-  };
-
-  const incrementarStock = () => {
-    setProductoEditar(prev => ({ ...prev, stock: prev.stock + 1 }));
-  };
-
-  const decrementarStock = () => {
-    setProductoEditar(prev => ({ ...prev, stock: prev.stock > 0 ? prev.stock - 1 : 0 }));
-  };
-
-  const guardarCambios = () => {
-    setProductos(prev => prev.map(p =>
-      p.id === productoEditar.id ? { ...p, stock: productoEditar.stock } : p
-    ));
-    setProductoEditar(null);
-  };
-
-  const eliminarProducto = () => {
-    if (window.confirm(`¿Está seguro que desea eliminar ${productoEditar.nombre}?`)) {
-      setProductos(prev => prev.filter(p => p.id !== productoEditar.id));
-      setProductoEditar(null);
-    }
   };
 
   const categorias = Array.from(new Set(productos.map(p => p.categoria))).sort();
@@ -78,7 +53,31 @@ function App() {
   });
 
   const totalPedido = productos.reduce((total, prod) => total + prod.precio * prod.cantidad, 0);
+
   const totalItemsSeleccionados = productos.reduce((sum, prod) => sum + prod.cantidad, 0);
+
+  // Modal
+  const abrirModal = (producto) => setProductoEditar(producto);
+  const cerrarModal = () => setProductoEditar(null);
+
+  // Funciones de edición
+  const cambiarStock = (id, nuevoStock) => {
+    setProductoEditar(prev => ({ ...prev, stock: Math.max(0, nuevoStock) }));
+  };
+
+  const actualizarStock = (id) => {
+    setProductos(prev => prev.map(p =>
+      p.id === id ? { ...p, stock: productoEditar.stock } : p
+    ));
+    cerrarModal();
+  };
+
+  const eliminarProducto = (id) => {
+    if (window.confirm(`¿Está seguro que desea eliminar ${productoEditar.nombre}?`)) {
+      setProductos(prev => prev.filter(p => p.id !== id));
+      cerrarModal();
+    }
+  };
 
   if (loading) return <div className="App">Cargando productos...</div>;
   if (error) return <div className="App">{error}</div>;
@@ -87,11 +86,13 @@ function App() {
     <div className="App">
       <h1>Listado de Productos</h1>
 
+      {/* Filtros de stock */}
       <div className="filtros-stock">
         <button onClick={() => { setFiltroStock('Todos'); setMostrarCarrito(false); }} className={filtroStock === 'Todos' && !mostrarCarrito ? 'activo' : ''}>Todos</button>
         <button onClick={() => { setFiltroStock('En Stock'); setMostrarCarrito(false); }} className={filtroStock === 'En Stock' && !mostrarCarrito ? 'activo' : ''}>En Stock</button>
       </div>
 
+      {/* Filtros de categoría */}
       <div className="filtros-categoria">
         <button onClick={() => { setFiltroCategoria('Todos'); setMostrarCarrito(false); }} className={filtroCategoria === 'Todos' && !mostrarCarrito ? 'activo' : ''}>Todos</button>
         {categorias.map(cat => (
@@ -124,7 +125,7 @@ function App() {
           key={producto.id}
           producto={producto}
           onCantidadChange={handleCantidadChange}
-          onEditar={handleEditar}
+          abrirModal={abrirModal}
         />
       ))}
 
@@ -132,18 +133,24 @@ function App() {
         Total pedido: ${totalPedido.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
       </div>
 
+      {/* Modal */}
       {productoEditar && (
-        <div className="modal">
-          <h2>Actualizar Stock: {productoEditar.nombre}</h2>
-          <div className="cantidad-modal">
-            <button onClick={decrementarStock}>-</button>
-            <span>{productoEditar.stock}</span>
-            <button onClick={incrementarStock}>+</button>
-          </div>
-          <div className="acciones-modal">
-            <button onClick={guardarCambios}>Actualizar</button>
-            <button onClick={() => setProductoEditar(null)}>Cancelar</button>
-            <button onClick={eliminarProducto}>Eliminar Producto</button>
+        <div className="modal-overlay" onClick={cerrarModal}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <h2>Actualizar Stock</h2>
+            <p>{productoEditar.nombre}</p>
+
+            <div className="modal-cantidad">
+              <button onClick={() => cambiarStock(productoEditar.id, productoEditar.stock - 1)}>-</button>
+              <span>{productoEditar.stock}</span>
+              <button onClick={() => cambiarStock(productoEditar.id, productoEditar.stock + 1)}>+</button>
+            </div>
+
+            <div className="modal-botones">
+              <button onClick={() => actualizarStock(productoEditar.id)}>Actualizar</button>
+              <button onClick={cerrarModal}>Cancelar</button>
+              <button onClick={() => eliminarProducto(productoEditar.id)}>Eliminar Producto</button>
+            </div>
           </div>
         </div>
       )}

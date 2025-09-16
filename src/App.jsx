@@ -47,11 +47,14 @@ function App() {
   return (
     <div className="App">
       <h1>Listado de Productos</h1>
-      <div className="encabezado">
-        <span>Producto</span>
-        <span>Precio</span>
-        <span>Stock</span>
-      </div>
+ <div className="encabezado">
+  <span className="columna-nombre">Producto</span>
+  <span className="columna-precio">Precio</span>
+  <span className="columna-stock">Stock</span>
+  <span className="columna-controles">Cantidad</span>
+  <span className="columna-extra">Reset</span>
+</div>
+
 
       {productos.map((producto, index) => (
         <Producto

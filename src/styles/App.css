@@ -15,36 +15,6 @@ h1 {
   color: #fff;
 }
 
-.encabezado {
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 0;
-  border-bottom: 2px solid #ccc;
-  color: #fff;
-  font-weight: bold;
-}
-
-/* Ajustamos columnas en encabezado para que coincidan con Producto */
-.encabezado .col-nombre {
-  flex-basis: 50%;
-  text-align: left;
-}
-
-.encabezado .col-precio {
-  flex-basis: 25%;
-  text-align: left;
-}
-
-.encabezado .col-stock {
-  flex-basis: 15%;
-  text-align: left;
-}
-
-/* Nueva columna encabezado para control de cantidad */
-.encabezado .col-cantidad-control {
-  flex-basis: 10%;
-  text-align: center;
-}
 .total-general {
   margin-top: 2rem;
   text-align: right;
@@ -67,4 +37,38 @@ h1 {
   font-size: 1.2rem;
   text-align: center;
   box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
+}
+.encabezado {
+  display: grid;
+  grid-template-columns: 40% 15% 20% 15% 10%;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 2px solid #ccc;
+  color: #fff;
+  font-weight: bold;
+}
+
+.encabezado span {
+  text-align: center;
+}
+
+.encabezado .columna-nombre {
+  text-align: left;
+}
+
+.encabezado .columna-precio {
+  text-align: right;
+  padding-right: 1rem;
+}
+
+.encabezado .columna-stock {
+  text-align: center;
+}
+
+.encabezado .columna-controles {
+  text-align: center;
+}
+
+.encabezado .columna-extra {
+  text-align: center;
 }

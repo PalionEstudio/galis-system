@@ -63,15 +63,29 @@ button:disabled {
   font-weight: bold;
 }
 
+/* Botón de reset / tacho de basura sin fondo */
 .boton-reset {
-  background-color: #ff4d4d;
-  color: white;
+  background-color: transparent;
   border: none;
-  border-radius: 6px;
+  color: white;
   padding: 0.25rem 0.5rem;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.2; /* por defecto baja visibilidad */
+  transition: color 0.2s, opacity 0.2s;
 }
 
-.boton-reset:hover {
-  background-color: #e60000;
+.boton-reset:enabled {
+  opacity: 1; /* cuando está habilitado se ve totalmente */
+}
+
+.boton-reset:enabled:hover {
+  color: #e60000; /* cambia color solo si está habilitado */
+}
+
+.boton-reset:disabled {
+  cursor: default; /* quita el cursor de puntero */
+  color: white;    /* mantiene el color, sin hover */
 }

@@ -1,4 +1,3 @@
-/* App.css */
 .App {
   max-width: 700px;
   width: 100%;
@@ -37,20 +36,40 @@ h1 {
 
 .filtros-stock button,
 .filtros-categoria button {
-  background-color: #333;
-  color: #fff;
+  color: #fff; /* texto siempre blanco */
   border: 1px solid #777;
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
-  opacity: 0.3; /* por defecto desactivado */
   transition: all 0.2s;
 }
 
+/* Botón normal desactivado */
+.filtros-stock button,
+.filtros-categoria button {
+  background-color: #333;
+  opacity: 0.3; /* fondo semitransparente si no está activo */
+}
+
+/* Botón activo */
 .filtros-stock button.activo,
 .filtros-categoria button.activo {
-  opacity: 1;
+  opacity: 1; /* fondo totalmente visible */
+}
+
+/* Botón carrito */
+.filtros-categoria button.carrito {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: white; /* fondo naranja */
+  color: #000; /* texto e ícono siempre blanco */
+  opacity: 0.5; /* fondo al 50% cuando no activo */
+}
+
+.filtros-categoria button.carrito.activo {
+  opacity: 1; /* fondo naranja 100% cuando activo */
 }
 
 /* Total flotante */

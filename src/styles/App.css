@@ -1,3 +1,4 @@
+/* App.css */
 .App {
   max-width: 700px;
   width: 100%;
@@ -5,70 +6,63 @@
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  margin-bottom:100px;
+  color: #fff;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   font-size: 2rem;
-  color: #fff;
 }
 
-.total-general {
-  margin-top: 2rem;
-  text-align: right;
-  color: #fff;
-}
-
-.total-general h2 {
-  font-size: 1.3rem;
-  margin: 0.3rem 0;
-}
-.total-flotante {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #000;
-  color: #fff;
-  padding: 1rem 2rem;
-  font-weight: bold;
-  font-size: 1.2rem;
-  text-align: center;
-  box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
-}
+/* Encabezado de la tabla */
 .encabezado {
   display: grid;
   grid-template-columns: 40% 15% 20% 15% 10%;
-  align-items: center;
+  font-weight: bold;
   padding: 0.75rem 0;
   border-bottom: 2px solid #ccc;
+  text-align: center;
+}
+
+/* Filtros de stock y categoría */
+.filtros-stock,
+.filtros-categoria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.filtros-stock button,
+.filtros-categoria button {
+  background-color: #333;
   color: #fff;
+  border: 1px solid #777;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  opacity: 0.3; /* por defecto desactivado */
+  transition: all 0.2s;
+}
+
+.filtros-stock button.activo,
+.filtros-categoria button.activo {
+  opacity: 1;
+}
+
+/* Total flotante */
+.total-flotante {
+  position: fixed;
+  bottom: 1rem;
+  right: 50%;
+  transform: translateX(50%);
+  background-color: #1a1a1a;
+  padding: 0.8rem 1.2rem;
+  border-radius: 12px;
   font-weight: bold;
-}
-
-.encabezado span {
-  text-align: center;
-}
-
-.encabezado .columna-nombre {
-  text-align: left;
-}
-
-.encabezado .columna-precio {
-  text-align: right;
-  padding-right: 1rem;
-}
-
-.encabezado .columna-stock {
-  text-align: center;
-}
-
-.encabezado .columna-controles {
-  text-align: center;
-}
-
-.encabezado .columna-extra {
-  text-align: center;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }

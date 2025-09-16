@@ -1,22 +1,22 @@
 import './Producto.css';
 import { FaTrash } from 'react-icons/fa'; // ícono de tacho de basura
 
-function Producto({ index, nombre, precio, stock, cantidad, onCantidadChange }) {
+function Producto({ id, nombre, precio, stock, cantidad, onCantidadChange }) {
   const incrementar = () => {
     if (cantidad < stock) {
-      onCantidadChange(index, cantidad + 1);
+      onCantidadChange(id, cantidad + 1);
     }
   };
 
   const decrementar = () => {
     if (cantidad > 0) {
-      onCantidadChange(index, cantidad - 1);
+      onCantidadChange(id, cantidad - 1);
     }
   };
 
   const resetCantidad = () => {
     if (cantidad > 0) {
-      onCantidadChange(index, 0);
+      onCantidadChange(id, 0);
     }
   };
 

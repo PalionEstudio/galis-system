@@ -1,6 +1,6 @@
 .producto-fila {
   display: grid;
-  grid-template-columns: 40% 15% 20% 15% 10%;
+  grid-template-columns: 40% 15% 20% 15% 10%; /* nombre, precio, cantidad, stock, admin */
   align-items: center;
   padding: 0.75rem 0;
   border-bottom: 1px solid #616161;
@@ -17,19 +17,34 @@
   padding-right: 1rem;
 }
 
+.columna-controles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .columna-stock {
   text-align: center;
   font-size: 0.9rem;
 }
 
-.columna-controles {
+.columna-cantidad {
   display: flex;
+  align-items: center;
+  gap: 0.5rem; /* espacio entre botones y tacho */
   justify-content: center;
-  gap: 0.5rem;
 }
 
 .columna-extra {
   display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.columna-admin {
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
@@ -63,29 +78,48 @@ button:disabled {
   font-weight: bold;
 }
 
-/* Botón de reset / tacho de basura sin fondo */
+/* Botón de reset / tacho */
 .boton-reset {
   background-color: transparent;
   border: none;
   color: white;
-  padding: 0.25rem 0.5rem;
   cursor: pointer;
   display: flex;
-  justify-content: center;
   align-items: center;
-  opacity: 0.2; /* por defecto baja visibilidad */
+  justify-content: center;
+  padding: 0.25rem;
+  font-size: 1rem;
   transition: color 0.2s, opacity 0.2s;
 }
 
 .boton-reset:enabled {
-  opacity: 1; /* cuando está habilitado se ve totalmente */
+  opacity: 1;
 }
 
 .boton-reset:enabled:hover {
-  color: #e60000; /* cambia color solo si está habilitado */
+  color: #e60000;
 }
 
 .boton-reset:disabled {
-  cursor: default; /* quita el cursor de puntero */
-  color: white;    /* mantiene el color, sin hover */
+  cursor: default;
+  color: white;
 }
+
+/* Botones editar y borrar */
+.boton-editar {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.boton-editar:hover {
+  color: #00bfff;
+}
+

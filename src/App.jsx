@@ -1,15 +1,16 @@
 import './styles/App.css';
 import { useState, useEffect } from 'react';
 import Producto from './components/Producto';
-import { FaShoppingCart } from 'react-icons/fa'; // ícono de carrito
+import { FaShoppingCart } from 'react-icons/fa';
 
 function App() {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filtroStock, setFiltroStock] = useState('Todos'); 
-  const [filtroCategoria, setFiltroCategoria] = useState('Todos'); 
-  const [mostrarCarrito, setMostrarCarrito] = useState(false); 
+  const [filtroStock, setFiltroStock] = useState('Todos');
+  const [filtroCategoria, setFiltroCategoria] = useState('Todos');
+  const [mostrarCarrito, setMostrarCarrito] = useState(false);
+  const [productoEditar, setProductoEditar] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:4000/productos')
@@ -41,6 +42,32 @@ function App() {
     ));
   };
 
+  const handleEditar = (producto) => {
+    setProductoEditar(producto);
+  };
+
+  const incrementarStock = () => {
+    setProductoEditar(prev => ({ ...prev, stock: prev.stock + 1 }));
+  };
+
+  const decrementarStock = () => {
+    setProductoEditar(prev => ({ ...prev, stock: prev.stock > 0 ? prev.stock - 1 : 0 }));
+  };
+
+  const guardarCambios = () => {
+    setProductos(prev => prev.map(p =>
+      p.id === productoEditar.id ? { ...p, stock: productoEditar.stock } : p
+    ));
+    setProductoEditar(null);
+  };
+
+  const eliminarProducto = () => {
+    if (window.confirm(`¿Está seguro que desea eliminar ${productoEditar.nombre}?`)) {
+      setProductos(prev => prev.filter(p => p.id !== productoEditar.id));
+      setProductoEditar(null);
+    }
+  };
+
   const categorias = Array.from(new Set(productos.map(p => p.categoria))).sort();
 
   const productosFiltrados = productos.filter(p => {
@@ -51,8 +78,6 @@ function App() {
   });
 
   const totalPedido = productos.reduce((total, prod) => total + prod.precio * prod.cantidad, 0);
-
-  // Cantidad total de items seleccionados
   const totalItemsSeleccionados = productos.reduce((sum, prod) => sum + prod.cantidad, 0);
 
   if (loading) return <div className="App">Cargando productos...</div>;
@@ -62,13 +87,11 @@ function App() {
     <div className="App">
       <h1>Listado de Productos</h1>
 
-      {/* Filtros de stock */}
       <div className="filtros-stock">
         <button onClick={() => { setFiltroStock('Todos'); setMostrarCarrito(false); }} className={filtroStock === 'Todos' && !mostrarCarrito ? 'activo' : ''}>Todos</button>
         <button onClick={() => { setFiltroStock('En Stock'); setMostrarCarrito(false); }} className={filtroStock === 'En Stock' && !mostrarCarrito ? 'activo' : ''}>En Stock</button>
       </div>
 
-      {/* Filtros de categoría */}
       <div className="filtros-categoria">
         <button onClick={() => { setFiltroCategoria('Todos'); setMostrarCarrito(false); }} className={filtroCategoria === 'Todos' && !mostrarCarrito ? 'activo' : ''}>Todos</button>
         {categorias.map(cat => (
@@ -91,26 +114,39 @@ function App() {
       <div className="encabezado">
         <span>Producto</span>
         <span>Precio</span>
+        <span>Cantidad</span>
         <span>Stock</span>
-        <span></span>
-        <span></span>
+        <span>Admin</span>
       </div>
 
       {productosFiltrados.map(producto => (
         <Producto
           key={producto.id}
-          id={producto.id}
-          nombre={producto.nombre}
-          precio={producto.precio}
-          stock={producto.stock}
-          cantidad={producto.cantidad}
+          producto={producto}
           onCantidadChange={handleCantidadChange}
+          onEditar={handleEditar}
         />
       ))}
 
       <div className="total-flotante">
         Total pedido: ${totalPedido.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
       </div>
+
+      {productoEditar && (
+        <div className="modal">
+          <h2>Actualizar Stock: {productoEditar.nombre}</h2>
+          <div className="cantidad-modal">
+            <button onClick={decrementarStock}>-</button>
+            <span>{productoEditar.stock}</span>
+            <button onClick={incrementarStock}>+</button>
+          </div>
+          <div className="acciones-modal">
+            <button onClick={guardarCambios}>Actualizar</button>
+            <button onClick={() => setProductoEditar(null)}>Cancelar</button>
+            <button onClick={eliminarProducto}>Eliminar Producto</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
